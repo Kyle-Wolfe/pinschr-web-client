@@ -1,27 +1,29 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
 
-<dom-module id="system-info">
+<dom-module id="partition-element">
     <template>
-    	<div>
-            <b>Platform:</b> {{platform}}
+        <div>
+            <b>Name: </b>{{name}}
         </div>
         <div>
-            <b>OS Version: </b>{{os_version}}
+            <b>Used: </b>{{used}} GB
         </div>
         <div>
-            <b>Home Directory: </b>{{home_dir}}
+           <b>Free: </b>{{free}} GB
         </div>
     </template>
 
     <script>
         Polymer({
-            is: "system-info",
+            is: "partition-element",
             properties: {
-            	platform: String,
-                os_version: String,
-                home_dir: String
+            	free: Number,
+                used: Number,
+                name: String
             }
         });
     </script>
 </dom-module>
+
