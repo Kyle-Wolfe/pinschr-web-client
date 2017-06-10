@@ -1,0 +1,48 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+
+<dom-module id="system-load">
+    <template>
+		<div id="load">
+			<div id="chart_div" style="width: 400px; height: 120px;"></div>
+		</div>
+    </template>
+	
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        Polymer({
+            is: "system-load",
+            properties: {
+				load: Number,
+            },
+
+			check_load: function(load) {
+				drawChart(Math.round(load * 100))
+				return (load * 100).toFixed(1);
+			}
+        });
+
+        google.charts.load('current', {'packages':['gauge']});
+        google.charts.setOnLoadCallback(drawChart);
+        
+		function drawLoadChart(newLoad) {
+            
+          var data = google.visualization.arrayToDataTable([
+            ['Label', 'Value'],
+            ['CPU', newLoad],
+          ]);
+        
+          var options = {
+            width: 400, height: 120,
+            redFrom: 90, redTo: 100,
+            yellowFrom:75, yellowTo: 90,
+            minorTicks: 5
+          };
+        
+          var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+        
+          chart.draw(data, options);
+
+        }
+    </script>
+</dom-module>

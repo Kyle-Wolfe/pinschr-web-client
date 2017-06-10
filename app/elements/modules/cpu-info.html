@@ -3,15 +3,15 @@
 
 <dom-module id="cpu-info">
     <template>
-        <div in="clock_speed">
+        <div id="clock_speed">
             <b>Clock Speed: </b> {{check_clock_speed(clock_speed)}} GHz
         </div>
         <div id="uptime">
             <b>Uptime: </b>{{check_uptime(uptime)}}
         </div>
-	<div id="load">
-	    <b>load: </b> {{check_load(load)}} %
-	</div>
+		<div id="load">
+			<b>load: </b> {{check_load(load)}} %
+		</div>
         <div id="temperature">
             <b>temperature: </b>{{check_temperature(temperature)}} &#8451
         </div>
@@ -22,7 +22,8 @@
             <b>fan_usage: </b>{{check_fan_usage(fan_usage)}}
         </div>
     </template>
-
+	
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script>
         Polymer({
             is: "cpu-info",
@@ -32,18 +33,18 @@
                 temperature: Number,
                 voltage: Number,
                 fan_usage: Number,
-		load: Number,
+				load: Number,
             },
 
-	    check_clock_speed: function(clock_speed) {
-		if(clock_speed < 0) {
-		    this.$.clock_speed.style.display = "none";
-		}
-		else {
-		    this.$.clock_speed.style.display = "";
-		}
-		return clock_speed;
-	    },
+			check_clock_speed: function(clock_speed) {
+				if(clock_speed < 0) {
+					this.$.clock_speed.style.display = "none";
+				}
+				else {
+					this.$.clock_speed.style.display = "";
+				}
+				return clock_speed;
+			},
 
             check_uptime: function(uptime) {
                 return formatTime(uptime);
@@ -79,27 +80,28 @@
                 return fan_usage;
             },
 
-	    check_load: function(load) {
-		return (load * 100).toFixed(1);
-	    }
+			check_load: function(load) {
+				drawLoadChart(Math.round(load * 100))
+				return (load * 100).toFixed(1);
+			}
         });
 
         function formatTime(seconds) {
             var dd = (Math.floor(seconds / 86400));
-	    var hh = (Math.floor(seconds / 3600) % 24);
-	    var mm = (Math.floor(seconds / 60) % 60);
+			var hh = (Math.floor(seconds / 3600) % 24);
+			var mm = (Math.floor(seconds / 60) % 60);
             var ss = seconds % 60;
 
-	    if (hh<10) {
-		hh = "0" + hh;
-	    }
-	    if (mm<10) {
-		mm = "0" + mm;
-	    }
+			if (hh<10) {
+				hh = "0" + hh;
+			}
+			if (mm<10) {
+				mm = "0" + mm;
+			}
             if (ss<10) {
                 ss = "0" + ss;
             }
-
+			
             return dd + " days " + hh + ":" + mm + ":" + ss;
         }
     </script>
